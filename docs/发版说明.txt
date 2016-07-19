@@ -1,0 +1,100 @@
+# Jspxcms 发版说明
+
+
+## jspxcms-6.5.0-release (2016-07-07)
+
+### 新功能(New Feature)
+
+1. 开源版开放多站点功能。
+2. 增加手机端网站演示。
+3. 增加微信公众号群发新闻功能。
+4. 增加微信第三方登录。
+4. 文档管理增加markdown编辑器。
+5. 文档管理加上按发布人、作者搜索。
+6. 采集时，允许勾选采集标题重复的内容。
+
+### 改进(Improvement)
+
+1. 使用maven管理。
+2. 第三方类库版本升级。servlet升级为2.5，spring升级为4.2.x，jpa升级为2.1，hibernate升级为5.0.x，spring-data-jpa升级为1.9.x。
+3. 删除文档相关数据时，如果回收站有数据，则自动删除。
+4. 删除站点时，自动删除模型。
+5. 后台发生400错误时，提供更详细的信息，更便于二次开发时查找问题。
+6. 裁剪不删除原图片。
+	
+### 缺陷(Bug)
+
+1. 前台swfupload增加jsessionid，防止上传时无法获得用户身份信息。
+2. “系统设置 - 注册设置”里会员组选项不显示“游客组”。
+3. 修复前台登录时，如果上下文路径不为空，则返回地址会出错。
+4. 默认模版/template/1/default/info_video.html，42行，`c:0，`改为`c:0,`（中文逗号改为英文逗号）。
+5. 修复默认会员中心模版修改头像页面的标题显示为修改邮箱。
+6. 修复删除站点时，任务数据未删除。
+7. 修复广告图片上传会被标识为未使用。
+
+### 升级指南（Upgrade Guide）
+
+1. **第三方登录URL地址修改。**`/oauth/qq_login.jspx`改为`/oauth/login/qq.jspx`；`/oauth/weibo_login.jspx`改为`/oauth/login/weibo.jspx`。
+2. **编辑器工具条`tarbar_Cms`改为`tarbar_Standard`。**
+3. **专题类别模版和URL地址修改。**`/specials.jspx`改为`/special_category.jspx`，`/specials/{id}.jspx`改为`/special_category/{id}.jspx`，`sys_specials.html`改为`sys_special_category_list.html`，`sys_specials_list.html`改为`sys_special_category.html`。
+4. **Tag模版和URL地址修改。**`/tags.jspx`改为`/tag.jspx`，`/tags/{id}.jspx`改为`/tag/{id}.jspx`；`sys_tags.html`改为`sys_tag_list.html`。
+5. **配置文件路径修改。**`/WEB-INF/conf`改为`/WEB-INF/classes/conf`，**国际化文件路径**`/WEB-INF/messages`改为`/WEB-INF/classes/messages`，**数据库连接文件**`/WEB-INF/custom.propertis`改为`/WEB-INF/classes/custom.propertis`。
+
+
+## jspxcms-6.0.1-release (2016-02-22)
+
+### 改进(Improvement)
+
+1. 第三方登录完善账户信息时允许不填写密码和验证码。
+2. 广告管理图片为必填项。
+3. 修正新浪采集演示数据。
+	
+### 缺陷(Bug)
+
+1. 文件管理列表页面底部显示图片时，图片定位不准。
+2. 广告管理新增广告时报错。
+3. oracle版文档管理新增文档，如保存正文为空，更新正文不为空，则cms_info_clob表会出现两条记录。
+4. 栏目移动提交时出现404错误。
+
+
+## jspxcms-6.0.0-release (2015-12-25)
+
+### 新功能(New Feature)
+
+1. 调查问卷。
+2. 会员头像、会员空间。
+3. 评论盖楼、评论点赞。
+4. QQ、微博第三方登录。
+5. 高级搜索，关键词高亮。
+6. 可查询字段演示。
+7. 文档、栏目可查询字段增加p0。
+8. 缓存的刷新触发设置。
+9. 登录需要验证码的错误次数设置。
+10. 演示模版升级。
+	
+### 改进(Improvement)
+
+1. 编辑器正文图片默认不压缩。
+2. 文档列表增加彻底删除链接。
+3. 增加关键词分割符设置。
+4. 优化word转swf程序。
+5. 文档属性图片改为必填项。
+6. 后台所有操作都记录日志。
+7. 全文检索查询参数q增加关键字和描述的搜索。
+8. 文档修改页面取消转向链接复选框自动清空转向链接内容。
+	
+### 缺陷(Bug)
+
+1. ueditor上传附件302错误（在火狐下）。
+2. ueditor双引号转义的问题。
+3. ueditor粘贴表格问题（在谷歌浏览器下）。
+4. ueditor上传附件不显示类型图标。
+5. 用户注册验证邮件地址错误。
+6. 专题无法选择模版。
+7. 新增广告在没有广告版位时会报错。
+8. 日志查询操作人没有保留。
+9. swfupload上传中点取消无效。
+
+
+	
+	

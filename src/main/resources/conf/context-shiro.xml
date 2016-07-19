@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+	default-lazy-init="true">
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login.jspx" />
+		<property name="filters">
+			<util:map>
+				<entry key="backSite" value-ref="backSiteFilter" />
+				<entry key="authc" value-ref="authcFilter" />
+				<entry key="user" value-ref="userFilter" />
+				<entry key="logout" value-ref="logoutFilter" />
+			</util:map>
+		</property>
+		<property name="filterChainDefinitions">
+			<value>
+				/ = anon
+				*.jspx = anon
+				*.jsp = anon
+				
+				/login.jspx = authc
+				/logout.jspx = logout
+				/my.jspx = user
+				/my/** = user
+				
+				/cmscp/ = backSite,anon
+				/cmscp/index.do = backSite,anon
+				/cmscp/login.do = backSite,authc
+				/cmscp/logout.do = backSite,logout
+				/cmscp/** = backSite,user
+			</value>
+		</property>
+	</bean>
+	<!-- Shiro Filter -->
+	<bean id="backSiteFilter" class="com.jspxcms.core.support.BackSiteFilter"/>
+	<bean id="authcFilter" class="com.jspxcms.core.security.CmsAuthenticationFilter"/>
+	<bean id="userFilter" class="com.jspxcms.core.security.CmsUserFilter"/>
+	<bean id="logoutFilter" class="com.jspxcms.core.security.CmsLogoutFilter"/>
+	
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroDbRealm" />
+		<property name="cacheManager" ref="shiroEhcacheManager" />
+	</bean>
+
+	<!-- 项目自定义的Realm -->
+	<bean id="shiroDbRealm" class="com.jspxcms.core.security.ShiroDbRealm">
+		<property name="authorizationCachingEnabled" value="false"/>
+	</bean>
+
+	<!-- 用户授权信息Cache, 采用EhCache -->
+	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache/shiro-ehcache.xml"/>
+	</bean>
+	
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+</beans>
